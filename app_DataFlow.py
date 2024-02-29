@@ -64,6 +64,40 @@ def impute_missing_values(data, numeric_method, categorical_method):
     st.subheader("After Imputation:")
     st.write("Remaining Missing Values:")
     st.write(data.isnull().sum().sort_values(ascending=False))
+
+    # Detect and remove outliers for numeric columns
+    st.subheader("Outlier Detection and Removal:")
+    numeric_columns = data.select_dtypes(include='number').columns
+
+    for column in numeric_columns:
+        st.subheader(f"Outlier Detection for '{column}':")
+
+        # Display boxplot
+        fig, ax = plt.subplots(figsize=(8, 6))
+        sns.boxplot(x=data[column], ax=ax)
+        st.pyplot(fig)
+
+        # Detect outliers
+        outliers = (data[column] < data[column].quantile(0.25) - 1.5 * (data[column].quantile(0.75) - data[column].quantile(0.25))) | (data[column] > data[column].quantile(0.75) + 1.5 * (data[column].quantile(0.75) - data[column].quantile(0.25)))
+
+        if st.checkbox(f"Detected outliers in '{column}'", value=outliers.any()):
+            # Ask user if they want to remove outliers
+            remove_outliers_option = st.radio(f"Do you want to remove outliers in '{column}'?", ("Yes", "No"))
+
+            if remove_outliers_option == "Yes":
+                # Remove outliers
+                data[column] = data[column][~outliers]
+
+                st.subheader(f"Dataset after removing outliers in '{column}':")
+                st.write(data.head())
+
+                # Show evidence that outliers are removed
+                st.subheader(f"Boxplot after removing outliers in '{column}':")
+                fig, ax = plt.subplots(figsize=(8, 6))
+                sns.boxplot(x=data[column], ax=ax)
+                st.pyplot(fig)
+            else:
+                st.info(f"You chose to keep outliers in '{column}'.")
 # Function to plot correlation heatmap using Plotly
 def plot_correlation_heatmap(data):
     st.subheader("Correlation Heatmap:")
@@ -79,6 +113,8 @@ def plot_correlation_heatmap(data):
         showscale=True,
     ))
     st.plotly_chart(fig)
+
+
 # Main Streamlit app
 def main():
     st.title("DataFlow Navigator")
