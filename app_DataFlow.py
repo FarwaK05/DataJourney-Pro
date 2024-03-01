@@ -13,7 +13,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error
 import numpy as np
-
+from PIL import Image
 # Function to load example dataset (Titanic from seaborn)
 def load_example_dataset():
     return sns.load_dataset('titanic')
@@ -117,8 +117,29 @@ def plot_correlation_heatmap(data):
 
 # Main Streamlit app
 def main():
-    st.title("DataFlow Navigator")
+    st.title("InfoFlow Master")
+    st.markdown(
+        """
+        ## Author:
+        
+        ### **Farwa Khalid**
+        
+        [![GitHub](https://img.shields.io/badge/-GitHub-24292e?style=for-the-badge&logo=github&logoColor=white)](https://github.com/FarwaK05)
+        [![Kaggle](https://img.shields.io/badge/-Kaggle-20BEFF?style=for-the-badge&logo=kaggle&logoColor=white)](https://www.kaggle.com/farwa99)
+        [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0077b5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/farwa-khalid-895527280/)
 
+        """
+    )
+    
+    # Path to your downloaded image file
+    image_path = r"C:\Users\Hello\Pictures\Screenshots\Screenshot 2024-03-02 003827.png"
+
+    # Load the image (optional)
+    image = Image.open(image_path)
+
+    # Alternatively, display the image after loading it (optional)
+    st.image(image)
+    
     # Load example dataset or upload user's dataset
     option = st.radio("Choose an option:", ["Use Example Dataset", "Upload Your Own Dataset"])
 
@@ -185,7 +206,25 @@ def main():
         seaborn_plot(data, x_column, y_column)
     else:
         st.warning("Invalid plot type selected.")
+      # Add badge links at the bottom right corner
+    st.markdown(
+        """
+        # Credits
 
+        ### **Dr. Muhammad Aammar Tufail**
+        
+        [![GitHub](https://img.shields.io/badge/GitHub-Profile-blue?style=for-the-badge&logo=github)](https://github.com/AammarTufail) 
+        [![Kaggle](https://img.shields.io/badge/Kaggle-Profile-blue?style=for-the-badge&logo=kaggle)](https://www.kaggle.com/muhammadaammartufail) 
+        [![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/dr-muhammad-aammar-tufail-02471213b/)  
+        
+        [![YouTube](https://img.shields.io/badge/YouTube-Profile-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/@codanics) 
+        [![Facebook](https://img.shields.io/badge/Facebook-Profile-blue?style=for-the-badge&logo=facebook)](https://www.facebook.com/aammar.tufail) 
+        [![TikTok](https://img.shields.io/badge/TikTok-Profile-black?style=for-the-badge&logo=tiktok)](https://www.tiktok.com/@draammar)  
+        
+        [![Twitter/X](https://img.shields.io/badge/Twitter-Profile-blue?style=for-the-badge&logo=twitter)](https://twitter.com/aammar_tufail) 
+        [![Instagram](https://img.shields.io/badge/Instagram-Profile-blue?style=for-the-badge&logo=instagram)](https://www.instagram.com/aammartufail/) 
+        """
+    )
 # Plotly scatter plot
 def plotly_plot(data, x_column, y_column):
     st.subheader("Plotly Plot:")
@@ -229,6 +268,7 @@ def seaborn_plot(data, x_column, y_column):
         fig, ax = plt.subplots()
         sns.boxplot(data=data, x=x_column, y=y_column, ax=ax)
         st.pyplot(fig)
+    # Display additional information on GitHub, LinkedIn, and YouTube profiles. 
 
 # Run the app
 if __name__ == "__main__":
