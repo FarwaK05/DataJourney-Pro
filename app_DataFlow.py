@@ -132,7 +132,7 @@ def main():
     )
     
     # Path to your downloaded image file
-    image_path = r"C:\Users\Hello\Pictures\Screenshots\Screenshot 2024-03-02 003827.png"
+    image_path = r"Screenshot 2024-03-02 003827.png"
 
     # Load the image (optional)
     image = Image.open(image_path)
